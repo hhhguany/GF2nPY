@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 支持GF2域下运算的python包
 '''
@@ -88,8 +89,8 @@ class Bin:
 
         elif len(quotient) != resultLength:
             raise RuntimeError("Quotient wrong")
-        else:
-            return [quotient, remainder]
+
+        return [quotient, remainder]
 
     @staticmethod
     def bin_mod(dividend, divisor):
@@ -123,6 +124,7 @@ class Bin:
             else:
                 b = a
         else:
+            a = [1, Bin.bin_add(Bin.bin_divide(_bin1, _bin2)[0], "1")]
             b = a
 
         while _bin2 != Bin.bin_gcd(_bin1, _bin2):
@@ -137,8 +139,28 @@ class Bin:
 
 
 class GF2nField:
-    pass
+    def __init__(self, n=8, pp="100011011"):
+        self._n = n  # n bit
+        self._pp = pp  # primitive polynomial
 
+    # TODO: 本原多项式检测
+    def test_field(self):
+        pass
 
-if __name__ == "__main__":
-    pass
+    def set_bit(self, n):
+        self._n = n
+
+    def set_primitive_polynomial(self, _bin):
+        self._pp = _bin
+
+    def add(self, _bin1, _bin2):
+        return Bin.bin_mod(Bin.bin_add(_bin1, _bin2), self._pp)
+
+    def multiply(self, _bin1, _bin2):
+        return Bin.bin_mod(Bin.bin_multiply(_bin1, _bin2), self._pp)
+
+    def inverse(self, _bin):
+        return Bin.bin_mod(Bin.bin_extend_euclid(_bin, self._pp)[0], self._pp)
+
+    def divide(self, dividend, divisor):
+        return self.multiply(dividend, self.inverse(divisor))
