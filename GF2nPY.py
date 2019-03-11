@@ -35,31 +35,6 @@ class Polynomial:
         return out
 
 
-class Test:
-    def __init__(self):
-        self._value1 = 255
-        self._value2 = 123
-
-    def test_Polynomial(self):
-        result = "\nStart test class Polynomial\n"
-        p1 = Polynomial(bin(self._value1)[2:])
-        result += "Test get_value_bin() OK.\n" if p1.get_value_bin() == bin(self._value1)[2:] else "Test get_value_bin() ERROR.\n"
-        result += "Test get_polynome() OK.\n" if p1.get_polynome(with_fx=2) == "f(255) = x^0 + x^1 + x^2 + x^3 + x^4 + x^5 + x^6 + x^7" else "Test get_polynome() ERROR.\n"
-        return result
-
-    def test_Bin(self):
-        result = "\nStart test class Bin\n"
-        p1 = Polynomial(bin(self._value1)[2:])
-        p2 = Polynomial(bin(self._value2)[2:])
-        result += "Test bin_add() OK.\n" if Bin.bin_add(p1.get_value_bin(), p2.get_value_bin()) == "10000100" else "Test bin_add() ERROR.\n"
-        result += "Test bin_multiply() OK.\n" if Bin.bin_multiply(p1.get_value_bin(), p2.get_value_bin()) == "10100100101001" else "Test bin_multiply() ERROR.\n"
-        result += "Test bin_divide() OK.\n" if Bin.bin_divide(p1.get_value_bin(), p2.get_value_bin()) == ["1", "1001"] else "Test bin_divide() ERROR.\n"
-        result += "Test bin_mod() OK.\n" if Bin.bin_mod(p1.get_value_bin(), p2.get_value_bin()) == "1001" else "Test bin_mod() ERROR.\n"
-        result += "Test bin_gcd() OK.\n" if Bin.bin_gcd(p1.get_value_bin(), p2.get_value_bin()) == "11" else "Test bin_gcd() ERROR.\n"
-        result += "Test bin_extend_euclid() OK.\n" if Bin.bin_extend_euclid("100011011", "10000011") == ['1000111', '10000000'] else "Test bin_extend_euclid() ERROR.\n"
-        return result
-
-
 class Bin:
     @staticmethod
     def _preproc(_bin1, _bin2):
@@ -90,27 +65,27 @@ class Bin:
     def bin_divide(dividend, divisor):
         quotient, remainder = "", ""
         resultLength = len(dividend) - len(divisor) + 1
-        tmpLen=len(dividend)
-        if divisor =="0":
+        tmpLen = len(dividend)
+        if divisor == "0":
             raise ValueError("Divisor should not be zero.")
 
         # TODO: 提高效率
-        while tmpLen>=len(divisor) and dividend != "0":
-            if len(dividend) >= len(divisor) and tmpLen==len(dividend):
+        while tmpLen >= len(divisor) and dividend != "0":
+            if len(dividend) >= len(divisor) and tmpLen == len(dividend):
                 dividend = Bin.bin_add(dividend, bin(int(divisor, 2) << (len(dividend) - len(divisor)))[2:])
-                quotient+="1"
+                quotient += "1"
             else:
-                quotient+="0"
-            tmpLen-=1
-            if dividend=="0":
-                while tmpLen>=len(divisor):
-                    quotient+="0"
-                    tmpLen-=1
+                quotient += "0"
+            tmpLen -= 1
+            if dividend == "0":
+                while tmpLen >= len(divisor):
+                    quotient += "0"
+                    tmpLen -= 1
 
         remainder = dividend
         if quotient == "":
             quotient = "0"
-        
+
         elif len(quotient) != resultLength:
             raise RuntimeError("Quotient wrong")
         else:
@@ -166,8 +141,4 @@ class GF2nField:
 
 
 if __name__ == "__main__":
-    t = Test()
-    print(t.test_Polynomial())
-    print(t.test_Bin())
-    
- 
+    pass
