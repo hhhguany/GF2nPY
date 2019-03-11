@@ -56,7 +56,7 @@ class Test:
         result += "Test bin_divide() OK.\n" if Bin.bin_divide(p1.get_value_bin(), p2.get_value_bin()) == ["1", "1001"] else "Test bin_divide() ERROR.\n"
         result += "Test bin_mod() OK.\n" if Bin.bin_mod(p1.get_value_bin(), p2.get_value_bin()) == "1001" else "Test bin_mod() ERROR.\n"
         result += "Test bin_gcd() OK.\n" if Bin.bin_gcd(p1.get_value_bin(), p2.get_value_bin()) == "11" else "Test bin_gcd() ERROR.\n"
-        result += "Test bin_gcd() OK.\n" if Bin.bin_divide(p1.get_value_bin(), "100011011") == ["0", "11111111"] else "Test bin_gcd() ERROR.\n"
+        result += "Test bin_extend_euclid() OK.\n" if Bin.bin_extend_euclid("100011011", "10000011") == ['1000111', '10000000'] else "Test bin_extend_euclid() ERROR.\n"
         return result
 
 
@@ -90,22 +90,31 @@ class Bin:
     def bin_divide(dividend, divisor):
         quotient, remainder = "", ""
         resultLength = len(dividend) - len(divisor) + 1
-        while len(dividend) >= len(divisor) and dividend != "0":
-            # TODO: 解决商的bug
-            #for i in range(len(dividend) - len(divisor))
+        tmpLen=len(dividend)
+        if divisor =="0":
+            raise ValueError("Divisor should not be zero.")
 
-            preDL = len(dividend)
-            dividend = Bin.bin_add(dividend, bin(int(divisor, 2) << (len(dividend) - len(divisor)))[2:])
-            if (preDL - len(dividend)) <= resultLength:
-                quotient = Bin.bin_add(quotient, bin(int("1", 2) << (preDL - len(dividend)))[2:])
+        # TODO: 提高效率
+        while tmpLen>=len(divisor) and dividend != "0":
+            if len(dividend) >= len(divisor) and tmpLen==len(dividend):
+                dividend = Bin.bin_add(dividend, bin(int(divisor, 2) << (len(dividend) - len(divisor)))[2:])
+                quotient+="1"
             else:
-                quotient = Bin.bin_add(quotient, bin(int("1", 2) << resultLength - 1)[2:])
-            #quotient += "1"
+                quotient+="0"
+            tmpLen-=1
+            if dividend=="0":
+                while tmpLen>=len(divisor):
+                    quotient+="0"
+                    tmpLen-=1
 
         remainder = dividend
         if quotient == "":
             quotient = "0"
-        return [quotient, remainder]
+        
+        elif len(quotient) != resultLength:
+            raise RuntimeError("Quotient wrong")
+        else:
+            return [quotient, remainder]
 
     @staticmethod
     def bin_mod(dividend, divisor):
@@ -160,4 +169,5 @@ if __name__ == "__main__":
     t = Test()
     print(t.test_Polynomial())
     print(t.test_Bin())
-    print(Bin.bin_divide("11011", "11"))
+    
+ 
