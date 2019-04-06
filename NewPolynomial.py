@@ -48,7 +48,7 @@ class NewPolynomial:
         if split != 0:
             while len(result) % split != 0:
                 result = [0] + result
-            poly = result    
+            poly = result
             result = []
             for i in range(int(len(poly) / split)):
                 result.append(poly[i * 32 + 0:(i + 1) * 32])

@@ -2,6 +2,7 @@
 Polynomial modular reduction for pentanomials
 '''
 import NewPolynomial as NP
+import time
 
 D_x = [789, 720, 567, 520, 433, 120, 98, 67, 19, 10, 1, 0]
 W_x = [163, 7, 6, 3, 0]
@@ -70,5 +71,9 @@ class PMRP:
             i = int(d.deg() / W)
         return d
 
+
 if __name__ == "__main__":
+    start = time.clock()
     print(PMRP.PMRP(D_x, W_x, W).get())
+    end = time.clock()
+    print(end - start)
