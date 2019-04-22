@@ -53,7 +53,7 @@ class Bin:
             while result[0] == "0" and result != "0":
                 result = result[1:]
         else:
-            Bin.padding_0(result, fixed_length)
+            result = Bin.padding_0(result, fixed_length)
         return result
 
     @staticmethod
