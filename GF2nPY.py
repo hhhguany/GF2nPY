@@ -42,15 +42,16 @@ class Bin:
         return [_bin2, _bin1] if len(_bin1) > len(_bin2) else [_bin1, _bin2]
 
     @staticmethod
-    def bin_add(_bin1, _bin2):
+    def bin_add(_bin1, _bin2, delet_extra_0=True):
         result = ""
         [_bin1, _bin2] = Bin._preproc(_bin1, _bin2)
         while len(_bin1) != len(_bin2):
             _bin1 = "0" + _bin1
         for i in range(len(_bin1)):
             result += str(int(_bin1[i]) ^ int(_bin2[i]))
-        while result[0] == "0" and result != "0":  #去除开头的0
-            result = result[1:]
+        if delet_extra_0:
+            while result[0] == "0" and result != "0":  #去除开头的0
+                result = result[1:]
         return result
 
     @staticmethod
