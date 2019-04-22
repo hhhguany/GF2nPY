@@ -138,6 +138,18 @@ class Bin:
 
         return b if flag == 0 else [b[1], b[0]]
 
+    @staticmethod
+    def padding_0(_bin, total_length=4):
+        '''
+        padding_0('110')='0110'
+        '''
+        if len(_bin) < total_length + 1:
+            while len(_bin) != total_length:
+                _bin = "0" + _bin
+        else:
+            raise ValueError("Value's length should less than total_length. ")
+        return _bin
+
 
 class GF2nField:
     def __init__(self, n=8, pp="100011011"):
